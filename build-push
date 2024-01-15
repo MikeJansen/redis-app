@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Build and push to ghcr.io
+
+gh auth token | docker login ghcr.io -u MikeJansen --password-stdin
+docker build -t ghcr.io/mikejansen/redis-app:latest .
+docker push ghcr.io/mikejansen/redis-app:latest

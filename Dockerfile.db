@@ -1,0 +1,5 @@
+FROM mysql:5.7
+
+# Copy the database initialize script: 
+# Contents of /docker-entrypoint-initdb.d are executed on mysqld startup
+ADD 01-init.sql /docker-entrypoint-initdb.d/

@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
+	"strings"
 
 	"github.com/go-redis/redis"
 	_ "github.com/go-sql-driver/mysql"
@@ -23,24 +25,30 @@ var cache *redis.ClusterClient
 
 func main() {
 	var err error
-	dbRead, err = sql.Open("mysql", "user:password@tcp(read-replica-host:3306)/dbname")
+	dbRead, err = sql.Open("mysql", os.Getenv("READ_REPLICA_DSN")) // Use the READ_REPLICA_DSN environment variable
 	if err != nil {
 		panic(err)
 	}
 
-	dbWrite, err = sql.Open("mysql", "user:password@tcp(write-replica-host:3306)/dbname")
+	dbWrite, err = sql.Open("mysql", os.Getenv("WRITE_REPLICA_DSN")) // Use the WRITE_REPLICA_DSN environment variable
 	if err != nil {
 		panic(err)
 	}
+
+	redisAddresses := strings.Split(os.Getenv("REDIS_CLUSTER_ADDRESSES"), ",") // Split the REDIS_CLUSTER_ADDRESSES environment variable by comma
+	redisPassword := os.Getenv("REDIS_PASSWORD")                               // Get the Redis password from the environment variable
 
 	cache = redis.NewClusterClient(&redis.ClusterOptions{
-		Addrs:    []string{"localhost:6379", "localhost:6380", "localhost:6381"},
-		Password: "",
+		Addrs:    redisAddresses,
+		Password: redisPassword,
 	})
 
 	r := mux.NewRouter()
 	r.HandleFunc("/data/{id}", GetData).Methods("GET")
 	r.HandleFunc("/data/{id}", PutData).Methods("PUT")
+	r.HandleFunc("/readyz", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("OK"))
+	})
 
 	http.ListenAndServe(":8080", r)
 }

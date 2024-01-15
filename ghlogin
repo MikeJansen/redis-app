@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Login with scopes to push to ghcr.io
+
+gh auth login \
+    --web \
+    --hostname github.com \
+    --git-protocol https \
+    --scopes read:packages,write:packages,delete:packages,repo
