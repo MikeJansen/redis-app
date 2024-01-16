@@ -1,9 +1,15 @@
 version: '3'
 services:
+  dev:
+    image: "mcr.microsoft.com/devcontainers/go:1-1.21-bullseye"
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.debug
     ports:
       - "8080:8080"
     depends_on:
@@ -27,7 +33,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: db.Dockerfile
+      dockerfile: Dockerfile.db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: testdb

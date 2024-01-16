@@ -1,6 +1,9 @@
 {
 	"name": "redis-app",
-	"image": "mcr.microsoft.com/devcontainers/go:1-1.21-bullseye",
+	//"image": "mcr.microsoft.com/devcontainers/go:1-1.21-bullseye",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "dev",
+	"workspaceFolder": "/workspace/redis-app",
 	"features": {
 		"ghcr.io/devcontainers/features/github-cli:1": {
 			"installDirectlyFromGitHubRelease": true,
