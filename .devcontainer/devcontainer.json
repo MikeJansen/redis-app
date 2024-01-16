@@ -1,9 +1,18 @@
 {
-	"name": "redis-app",
-	//"image": "mcr.microsoft.com/devcontainers/go:1-1.21-bullseye",
-	"dockerComposeFile": "../docker-compose.yml",
+	"dockerComposeFile": "docker-compose.yml",
 	"service": "dev",
-	"workspaceFolder": "/workspace/redis-app",
+	"runServices": [
+		"dev",
+		"db",
+		"test",
+		"redis-node-0",
+		"redis-node-1",
+		"redis-node-2",
+		"redis-node-3",
+		"redis-node-4",
+		"redis-node-5"
+	],
+	"workspaceFolder": "/workspaces/redis-app",
 	"features": {
 		"ghcr.io/devcontainers/features/github-cli:1": {
 			"installDirectlyFromGitHubRelease": true,
@@ -11,5 +20,7 @@
 		},
 		"ghcr.io/joshuanianji/devcontainer-features/github-cli-persistence:1": {},
 		"ghcr.io/devcontainers/features/docker-outside-of-docker": {}
-	}
+	},
+	// "image": "mcr.microsoft.com/devcontainers/go:1-1.21-bullseye",
+	"name": "redis-app"
 }

@@ -1,7 +1,25 @@
 {
 	"folders": [
 		{
-			"path": ".."
+			"path": "."
 		}
-	]
+	],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Launch main.go",
+				"type": "go",
+				"request": "launch",
+				"mode": "auto",
+				"program": "${workspaceFolder}/main.go",
+				"env": {
+					"READ_REPLICA_DSN": "testuser:testpassword@tcp(db:3306)/testdb",
+					"WRITE_REPLICA_DSN": "testuser:testpassword@tcp(db:3306)/testdb",
+					"REDIS_CLUSTER_ADDRESSES": "redis-node-0:6379,redis-node-1:6379,redis-node-2:6379,redis-node-3:6379,redis-node-4:6379,redis-node-5:6379",
+					"REDIS_PASSWORD": "bitnami"
+				}
+			}
+		]
+	}
 }
